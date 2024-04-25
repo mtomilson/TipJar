@@ -1,5 +1,7 @@
 var AWS = require("aws-sdk")
 
+
+
 let awsConfig = {
     "region": "us-east-1",
     "accessKeyId": "AKIAQ3EGTET4QLUWWBGP",
@@ -10,12 +12,11 @@ AWS.config.update(awsConfig)
 
 let docClient = new AWS.DynamoDB.DocumentClient()
 
-export function readTable() {
+export function readUsers(userIdInput) {
     var params = {
-        TableName: "Tips",
+        TableName: "Users",
         Key: {
-            UserID: "mtomilson",
-            Date: "04-15-2024"
+            UserID: userIdInput
         }
 
     };
@@ -26,7 +27,9 @@ export function readTable() {
         }
         else {
             console.log("success" + JSON.stringify(data,null,2))
+
         }
+       
     })
 
 }

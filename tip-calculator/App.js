@@ -1,18 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, View, Alert } from 'react-native';
-import { readTable } from './database/readTable'
-import { writeTable } from './database/writeTable'
+import Login from './components/Login.jsx'
+import ViewTips from './components/ViewTips.jsx'
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text></Text>
-      <Button 
-        onPress = {writeTable(data)}
-        title = "CLICK ME"
-        color = "#000"
-
-      />
+      <ViewTips/>
       <StatusBar style="auto" />
     </View>
   );
