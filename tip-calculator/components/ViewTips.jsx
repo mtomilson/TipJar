@@ -7,6 +7,10 @@ export default function ViewTips() {
     const [date, setDate] = useState("")
     const [data, setData] = useState([])
     const [cashTips, setCashTips] = useState("")
+    const [creditTips, setCreditTips] = useState("")
+    const [netSales, setNetSales] = useState("")
+
+
     var JSONdata // stores the data from readtips.js 
 
 
@@ -31,6 +35,8 @@ export default function ViewTips() {
         JSONdata = JSON.parse(fetchedData) // parses it because i returned it as a string
         console.log(JSONdata)
         setCashTips(JSONdata.Item.CashTips)
+        setCreditTips(JSONdata.Item.CreditTips)
+        setNetSales(JSONdata.Item.NetSales)
 
     }
 
@@ -51,7 +57,9 @@ export default function ViewTips() {
     />
 
     <Text>
-        Cash Tips: {ctips}
+        Cash Tips: {cashTips}
+        Credit Tips: {creditTips}
+        Net Sales: {netSales}
     </Text>
 
     </SafeAreaView>
