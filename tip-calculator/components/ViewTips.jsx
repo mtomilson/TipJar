@@ -1,17 +1,14 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { Button, StyleSheet, Text, View, Alert, SafeAreaView, TextInput} from 'react-native';
-import { readTips } from '../database/tips/readTips'
+import { readTips, tipData } from '../database/tips/readTips'
 
 export default function ViewTips() {
     const [date, setDate] = useState("")
-    const [tips, setTips] = useState("")
     const [data, setData] = useState([])
-    
-    useEffect(() => {
-        console.log("OnChange: " + data)
+    const [cashTips, setCashTips] = useState("")
+    var JSONdata // stores the data from readtips.js 
 
-    }, [data])
 
 
     const styles = StyleSheet.create({
@@ -26,14 +23,18 @@ export default function ViewTips() {
 
       
       async function handleInput() {
+        var fetchedData
+        fetchedData = await readTips(date)
+        setData(fetchedData)
 
-         await setData(readTips(date))
+        console.log("from viewtips" + fetchedData)
+        JSONdata = JSON.parse(fetchedData) // parses it because i returned it as a string
+        console.log(JSONdata)
+        setCashTips(JSONdata.Item.CashTips)
 
-        //  var data = readTips()
-        //  console.log(date)
-      
-      }
+    }
 
+    
   return (
 
     <SafeAreaView>
@@ -50,10 +51,7 @@ export default function ViewTips() {
     />
 
     <Text>
-        hello
-        {tips}
-        {data}
-        hello
+        Cash Tips: {ctips}
     </Text>
 
     </SafeAreaView>
