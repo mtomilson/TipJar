@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { Button, StyleSheet, Text, View, Alert, SafeAreaView, TextInput} from 'react-native';
 import { writeTips } from '../database/tips/writeTips'
+import {GoogleVision} from '../ocr/GoogleVision'
 
 
 
@@ -16,7 +17,8 @@ export default function AddTips() {
     const [cashTips, setCashTips] = useState("")
 
     function runTips() {
-        writeTips(creditTips, date, netSales, barSales, grossSales, cashTips)
+        //writeTips(creditTips, date, netSales, barSales, grossSales, cashTips)
+        GoogleVision()
     }
 
     const styles = StyleSheet.create({
