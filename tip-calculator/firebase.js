@@ -2,17 +2,28 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import {getFirestore} from "@firebase/firestore"
+import {
+        FIREBASE_API_KEY, 
+        FIREBASE_AUTH_DOMAIN, 
+        FIREBASE_PROJECT_ID, 
+        FIREBASE_STORAGE_BUCKET, 
+        FIREBASE_MESSAGING_SENDER_ID, 
+        FIREBASE_APP_ID } from '@env'
+
+import {getAuth} from "@firebase/auth"
+
 const firebaseConfig = {
-  apiKey: "AIzaSyChRBKP3Zqi5pcPDCfd2RZ_30JCnth-nYc",
-  authDomain: "tipjar-65b52.firebaseapp.com",
-  projectId: "tipjar-65b52",
-  storageBucket: "tipjar-65b52.appspot.com",
-  messagingSenderId: "166101072455",
-  appId: "1:166101072455:web:c188b7cc188ce722d8cf62",
-  measurementId: "G-S6XH14FMGC"
+  apiKey: FIREBASE_API_KEY,
+  authDomain: FIREBASE_AUTH_DOMAIN,
+  projectId: FIREBASE_PROJECT_ID,
+  storageBucket: FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: FIREBASE_MESSAGING_SENDER_ID,
+  appId: FIREBASE_APP_ID,
+
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 export const firestore = getFirestore(app)
+export const getAuth = getAuth(app)
