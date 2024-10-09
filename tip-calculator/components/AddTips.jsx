@@ -4,6 +4,8 @@ import { firestore } from "../firebase";
 import { addDoc, collection } from "@firebase/firestore";
 import Tesseract from 'tesseract.js';
 import * as ImagePicker from 'expo-image-picker';
+import {getAuth, signOut} from 'firebase/auth'
+
 
 export default function AddTips() {
   const [creditTips, setCreditTips] = useState("");
@@ -15,7 +17,7 @@ export default function AddTips() {
   const [ocrResult, setOcrResult] = useState("");
   const [error, setError] = useState("");
   const [image, setImage] = useState(null);
-
+  const auth = getAuth()
   const ref = collection(firestore, "tipdata");
 
   const handleOcr = async () => {
@@ -90,6 +92,7 @@ export default function AddTips() {
   };
 
 
+
   function extractData(data) {
 
     //extracts net sales from the data
@@ -143,9 +146,16 @@ export default function AddTips() {
        }
       }
      }
-   
-
   }
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      console.log('User signed out successfully');
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -171,7 +181,8 @@ export default function AddTips() {
       <Button title="Save Tips" onPress={handleSave} />
       <Button title="Process Image" onPress={handleOcr} />
       <Button title="Upload Image" onPress={handleUpload} />
-      
+      <Button title="Logout" onPress={handleSignOut} />
+
       {image && (
         <Image
           source={{ uri: image }}

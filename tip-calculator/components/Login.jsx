@@ -7,11 +7,13 @@ import { Poppins_800ExtraBold_Italic,
         Poppins_300Light,
         Poppins_500Medium} from "@expo-google-fonts/poppins"
 import {useState} from 'react'
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword} from "firebase/auth"
 
 export default function Login() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-
+    const [user, setUser] = useState("")
+    const [uid, setUID] = useState("")
     const [fontsLoaded] = useFonts({
         Poppins_800ExtraBold_Italic,
         Poppins_400Regular,
@@ -19,12 +21,37 @@ export default function Login() {
         Poppins_300Light,
         Poppins_500Medium
     })
+    const auth = getAuth()
+
+
     if(!fontsLoaded) {
         return <Text>
             loading...
         </Text>
     }
 
+
+
+    const signUp = async () => {
+        createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            setUser(userCredential.user)
+        })
+        .catch((error) =>{
+            console.log("Error: ", error)
+        })
+    }
+
+    const login = async () => {
+        signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            setUser(userCredential.user)
+        }).catch((error) => {
+            console.log("error:", error)
+        })
+
+        console.log(user.uid)
+    }
 
   return (
     <SafeAreaView style={styles.screen}>
@@ -58,7 +85,7 @@ export default function Login() {
             <View style={styles.buttonRow}>
             <TouchableOpacity
             style={styles.signUpButton} 
-            onPress={() => console.log('Button pressed')}
+            onPress={signUp}
             >
              <Text style={styles.signUpButtonText}>Sign Up</Text>
 
@@ -66,7 +93,7 @@ export default function Login() {
             
             <TouchableOpacity
             style={styles.loginButton}
-            onPress={() => console.log("login")}>
+            onPress={login}>
                 <Text style={styles.loginButtonText}>Login</Text>
             </TouchableOpacity>
             </View>
