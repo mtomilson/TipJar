@@ -1,7 +1,11 @@
 import React from 'react'
-import { Text, SafeAreaView, StyleSheet, View, TextInput} from 'react-native'
+import { Text, SafeAreaView, StyleSheet, View, TextInput, Image, Button, TouchableOpacity} from 'react-native'
 import {useFonts} from "expo-font"
-import { Poppins_800ExtraBold_Italic, Poppins_400Regular, Poppins_600SemiBold} from "@expo-google-fonts/poppins"
+import { Poppins_800ExtraBold_Italic, 
+        Poppins_400Regular, 
+        Poppins_600SemiBold,
+        Poppins_300Light,
+        Poppins_500Medium} from "@expo-google-fonts/poppins"
 import {useState} from 'react'
 
 export default function Login() {
@@ -11,7 +15,9 @@ export default function Login() {
     const [fontsLoaded] = useFonts({
         Poppins_800ExtraBold_Italic,
         Poppins_400Regular,
-        Poppins_600SemiBold
+        Poppins_600SemiBold,
+        Poppins_300Light,
+        Poppins_500Medium
     })
     if(!fontsLoaded) {
         return <Text>
@@ -23,12 +29,24 @@ export default function Login() {
   return (
     <SafeAreaView style={styles.screen}>
         <View style={styles.container}>
-            <Text style={styles.poppins}>Tip Jar</Text>
+            <Text style={styles.title}>Tip Jar</Text>
+
+            <Image
+            source={require('../assets/images/tips.png')}
+            style={styles.tipsImage}
+            />
+
+
+            <Text style={styles.descriptionText}>Email</Text>
+
             <TextInput 
             placeholder='Email' 
             style={styles.emailBox}
             value={email}
             onChangeText={setEmail}/>
+
+            <Text style={styles.descriptionText}>Password</Text>
+
 
             <TextInput 
             placeholder='Password' 
@@ -37,7 +55,23 @@ export default function Login() {
             onChangeText={setPassword}
             secureTextEntry={true}
             />
-                
+            <View style={styles.buttonRow}>
+            <TouchableOpacity
+            style={styles.signUpButton} 
+            onPress={() => console.log('Button pressed')}
+            >
+             <Text style={styles.signUpButtonText}>Sign Up</Text>
+
+            </TouchableOpacity>
+            
+            <TouchableOpacity
+            style={styles.loginButton}
+            onPress={() => console.log("login")}>
+                <Text style={styles.loginButtonText}>Login</Text>
+            </TouchableOpacity>
+            </View>
+
+                         
             
         </View>
     </SafeAreaView>
@@ -46,30 +80,40 @@ export default function Login() {
 }
 
 const styles = StyleSheet.create({
-    poppins: {
+    tipsImage: {
+        height: 90,
+        width: 120,
+        justifyContent: 'center',
+        alignSelf: 'center'
+    },
+    title: {
       fontSize: 30,
       fontFamily: "Poppins_600SemiBold",
       textAlign: 'center',
-      padding: 50,
+      paddingTop: 25,
+      color: '#85C7F2'
     },
-    textStyle: {
-        fontSize: 30,
-        fontWeight: '600',
-        textAlign: 'center',
-        padding: 50
-        
-    },
+    
     emailBox: {
         height: 40,
         margin: 12,
         borderWidth: 1,
+        borderColor: '#636363',
         padding: 10,
+    },
+
+    descriptionText: {
+        paddingLeft: 13,
+        color: '#85C7F2',
+        fontFamily: "Poppins_300Light",
+        fontSize: 15,
     },
 
     passwordBox: {
         height: 40,
         margin: 12,
         borderWidth: 1,
+        borderColor: '#636363',
         padding: 10,
     },
 
@@ -81,6 +125,48 @@ const styles = StyleSheet.create({
         borderRadius: 15,
 
     },
+    signUpButton: {
+        backgroundColor: '#85C7F2',
+        paddingVertical: 5,
+        paddingHorizontal: 5,
+        alignSelf: 'left',
+        margin: 12,
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 120,
+      },
+      
+      signUpButtonText: {
+        fontFamily: 'Poppins_500Medium', // or whatever font you are using
+        fontSize: 15, // Set your desired font size here
+        color: 'white',
+      },
+
+      loginButton: {
+        backgroundColor: '#85C7F2',
+        paddingVertical: 5,
+        paddingHorizontal: 5,
+        alignSelf: 'right',
+        margin: 12,
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 120,
+      },
+      
+      loginButtonText: {
+        fontFamily: 'Poppins_500Medium', // or whatever font you are using
+        fontSize: 15, // Set your desired font size here
+        color: 'white',
+      },
+      
+      buttonRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+      }
+    
+   
    
 
 
