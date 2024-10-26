@@ -35,6 +35,7 @@ export default function AddTips() {
       setOcrResult(data);
       
       let lines = ocrResult.lines
+      console.log(lines)
       extractData(lines)
     } catch (err) {
       console.error(err);
