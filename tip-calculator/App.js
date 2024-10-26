@@ -4,6 +4,7 @@ import AddTips from './components/AddTips.jsx';
 import Login from './components/Login.jsx'
 import {getAuth, onAuthStateChanged} from 'firebase/auth'
 import {useEffect, useState} from 'react'
+import HomePage from './components/HomePage.jsx'
 
 export default function App() {
   const auth = getAuth()
@@ -28,10 +29,13 @@ export default function App() {
   return (
     <View style={styles.container}>
       {userExists ? (
-        <AddTips/>
+        <HomePage/>
         ) : (
         <Login/>
       )}      
+      <HomePage/>
+      
+
       <StatusBar style="auto" />
     </View>
   );

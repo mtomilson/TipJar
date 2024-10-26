@@ -49,8 +49,6 @@ export default function Login() {
         }).catch((error) => {
             console.log("error:", error)
         })
-
-        console.log(user.uid)
     }
 
   return (

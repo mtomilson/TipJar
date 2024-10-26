@@ -31,13 +31,10 @@ export default function AddTips() {
         'eng'
       );
 
-      console.log("Ehello")
 
       setOcrResult(data);
       
       let lines = ocrResult.lines
-      console.log("Ehello")
-      console.log(lines)
       extractData(lines)
     } catch (err) {
       console.error(err);
