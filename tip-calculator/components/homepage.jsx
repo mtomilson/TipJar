@@ -1,9 +1,11 @@
 import React from 'react'
+import { useState, useEffect } from 'react'
 import { View, Text, SafeAreaView, StyleSheet } from 'react-native'
 import AddTips from './AddTips'
 import { useFonts } from "expo-font"
 import { LinearGradient } from 'expo-linear-gradient'
-
+import { doc, getDoc, getFirestore } from '@firebase/firestore'
+import { getAuth, onAuthStateChanged } from '@firebase/auth'
 import {
   Poppins_800ExtraBold_Italic,
   Poppins_400Regular,
@@ -22,7 +24,41 @@ export default function HomePage() {
     Poppins_500Medium
   })
 
+  const [userID, setUserID] = useState("")
+  const [userData, setUserData] = useState({})
+  const [name, setName] = useState("")
 
+  const db = getFirestore()
+  const auth = getAuth()
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setUserID(user.uid)
+    }
+  })
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (userID) {
+        try {
+          const userDocRef = doc(db, userID, "Information");
+          const docSnap = await getDoc(userDocRef);
+
+          if (docSnap.exists()) {
+            setUserData(docSnap.data())
+            setName(docSnap.data().name)
+
+          } else {
+            console.log("Error: Document not found");
+          }
+        } catch (error) {
+          console.log("Error fetching document:", error);
+        }
+      }
+    };
+    fetchData()
+
+  }, [userID])
 
 
   return (
@@ -30,13 +66,23 @@ export default function HomePage() {
       <LinearGradient
         colors={['rgba(183,72,102,0.8)', 'transparent']}
         style={styles.background}
-        />
+      />
       <View style={styles.displayContainer}>
         <View style={styles.display}>
+
           <View style={styles.displayTotal}>
-            <Text style={styles.words}>
-              Welcome!
-            </Text>
+            <View>
+              <Text style={styles.words}>
+                Welcome, {name}!
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.words}>
+                Total Tips: !
+              </Text>
+            </View>
+
+
           </View>
 
         </View>
@@ -70,9 +116,9 @@ const styles = StyleSheet.create({
   words: {
     fontSize: 20,
     fontFamily: "Poppins_600SemiBold",
-    
+
   },
-  
+
   displayContainer: {
     height: 700,
     width: 350,
@@ -84,8 +130,9 @@ const styles = StyleSheet.create({
   displayTotal: {
     justifyContent: 'center',
     //alignItems: 'center',
-    width: 200,
-    height: 50,
+    width: 'auto',
+    height: 'auto',
+    paddingVertical: 10,
   },
   background: {
     position: 'absolute',
@@ -94,7 +141,7 @@ const styles = StyleSheet.create({
     top: 0,
     height: 800,
   },
-  
+
 
 
 
