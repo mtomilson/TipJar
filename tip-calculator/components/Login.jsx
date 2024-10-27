@@ -80,6 +80,7 @@ export default function Login() {
             onChangeText={setPassword}
             secureTextEntry={true}
             />
+            
             <View style={styles.buttonRow}>
             <TouchableOpacity
             style={styles.signUpButton} 
@@ -116,7 +117,7 @@ const styles = StyleSheet.create({
       fontFamily: "Poppins_600SemiBold",
       textAlign: 'center',
       paddingTop: 25,
-      color: '#85C7F2'
+      color: '#B74866'
     },
     
     emailBox: {
@@ -129,7 +130,7 @@ const styles = StyleSheet.create({
 
     descriptionText: {
         paddingLeft: 13,
-        color: '#85C7F2',
+        color: '#B74866',
         fontFamily: "Poppins_300Light",
         fontSize: 15,
     },
@@ -151,7 +152,7 @@ const styles = StyleSheet.create({
         marginTop: 100,
     },
     signUpButton: {
-        backgroundColor: '#85C7F2',
+        backgroundColor: '#B74866',
         paddingVertical: 5,
         paddingHorizontal: 5,
         alignSelf: 'left',
@@ -169,7 +170,7 @@ const styles = StyleSheet.create({
       },
 
       loginButton: {
-        backgroundColor: '#85C7F2',
+        backgroundColor: '#B74866',
         paddingVertical: 5,
         paddingHorizontal: 5,
         alignSelf: 'right',

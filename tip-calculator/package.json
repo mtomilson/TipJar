@@ -35,7 +35,8 @@
     "react-native-config": "^1.5.1",
     "react-native-web": "~0.19.6",
     "tesseract.js": "^5.1.0",
-    "typescript": "~5.3.3"
+    "typescript": "~5.3.3",
+    "expo-linear-gradient": "~13.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

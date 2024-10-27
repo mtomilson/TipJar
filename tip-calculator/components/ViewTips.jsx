@@ -11,7 +11,7 @@ export default function ViewTips() {
     const [netSales, setNetSales] = useState("")
 
 
-    var JSONdata // stores the data from readtips.js 
+    let JSONdata // stores the data from readtips.js 
 
 
 

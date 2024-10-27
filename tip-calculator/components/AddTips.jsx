@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Button, StyleSheet, TextInput, SafeAreaView, Image, View, Text } from 'react-native';
 import { firestore } from "../firebase";
-import { addDoc, collection } from "@firebase/firestore";
+import { getFirestore, doc, setDoc } from "@firebase/firestore";
 import Tesseract from 'tesseract.js';
 import * as ImagePicker from 'expo-image-picker';
-import {getAuth, signOut} from 'firebase/auth'
-
+import {getAuth, signOut, onAuthStateChanged} from 'firebase/auth'
+import picture from '../assets/images/tips.png'
+import { LinearGradient } from 'expo-linear-gradient'
 
 export default function AddTips() {
   const [creditTips, setCreditTips] = useState("");
@@ -17,20 +18,29 @@ export default function AddTips() {
   const [ocrResult, setOcrResult] = useState("");
   const [error, setError] = useState("");
   const [image, setImage] = useState(null);
+  const [userID, setUserID] = useState("")
   const auth = getAuth()
-  const ref = collection(firestore, "tipdata");
+  const db = getFirestore()
 
+
+  /**
+   * handleOcr() will process the image in the use state
+   * it uses tesseract to extract data from the image
+   * sets that data to lines, then passes it into extractData()
+   * where it will be parsed for the correct information
+   */
   const handleOcr = async () => {
-    if (!image) {
-      setError("Please upload an image first.");
-      return;
-    }
+
+    
     try {
+      console.log("HELLO OCR IS WORKING")
+
       const { data } = await Tesseract.recognize(
-        image,
+        picture,
         'eng'
       );
 
+      
 
       setOcrResult(data);
       
@@ -45,6 +55,14 @@ export default function AddTips() {
 
   };
 
+  // set up auth
+
+  onAuthStateChanged(auth, (user) => {
+    if(user) {
+      setUserID(user.uid)
+    }
+  })
+
 
 
   const handleSave = async () => {
@@ -57,39 +75,62 @@ export default function AddTips() {
       cashTips,
     };
 
+    console.log("userID", userID)
+
     try {
-      await addDoc(ref, data);
-      alert('Data saved successfully');
+      if(date == "") {
+        alert("cannot save, no date provided")
+      }
+      else {
+        const userDocRef = doc(db, userID, date)
+        await setDoc(userDocRef, data)
+      }
     } catch (e) {
-      console.log(e);
-      setError("Failed to save data");
+      console.log(e)
     }
   };
 
+  // const handleUpload = async () => {
+  //   try {
+  //     const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+  //     if (!permissionResult.granted) {
+  //       alert('Permission to access camera is required!');
+  //       return;
+  //     }
+
+  //     let result = await ImagePicker.launchCameraAsync({
+  //       cameraType: ImagePicker.CameraType.back,
+  //       allowsEditing: true,
+  //       aspect: [1, 1],
+  //       quality: 1,
+  //     });
+
+  //     if (!result.cancelled) {
+  //       setImage(result.assets[0].uri);
+  //     }
+  //   } catch (error) {
+  //     alert("Error uploading image: " + error.message);
+  //   }
+  // };
+
+
+  /**
+   * handleUpload() will access the user's camera roll
+   */
   const handleUpload = async () => {
-    try {
-      const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-      if (!permissionResult.granted) {
-        alert('Permission to access camera is required!');
-        return;
-      }
-
-      let result = await ImagePicker.launchCameraAsync({
-        cameraType: ImagePicker.CameraType.back,
-        allowsEditing: true,
-        aspect: [1, 1],
-        quality: 1,
-      });
-
-      if (!result.cancelled) {
-        setImage(result.assets[0].uri);
-      }
-    } catch (error) {
-      alert("Error uploading image: " + error.message);
-    }
-  };
-
-
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4,3],
+      quality: 1,
+    })
+  }
+  /**
+   * extractData() will take in a paramter data, which is passed in from
+   * handleOcr(), which is the data pulled from the image
+   * this will parse the json and look for the data needed (e.g net sales, credit tips)
+   * uses regex to look for numbers 
+   */
 
   function extractData(data) {
 
@@ -145,6 +186,11 @@ export default function AddTips() {
       }
      }
   }
+
+  /**
+   * handleSignOut() will sign the user out when clicked
+   * will eventually need to be moved to different file 
+   */
 
   const handleSignOut = async () => {
     try {

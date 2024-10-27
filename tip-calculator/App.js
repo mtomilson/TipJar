@@ -45,19 +45,19 @@ export default function App() {
                 iconName = "home-outline"
 
 
-              } else if (route.name === 'AddTips') {
+              } else if (route.name === 'Add Tips') {
                 iconName = "add-circle-outline"
               }
 
               // You can return any component that you like here!
               return <Ionicons name={iconName} size={size} color={color} />;
             },
-            tabBarActiveTintColor: '#85C7F2',
+            tabBarActiveTintColor: '#B74866',
             tabBarInactiveTintColor: 'gray',
           })}
         >
           <Tab.Screen name="Home" component={HomePage} />
-          <Tab.Screen name="AddTips" component={AddTips} />
+          <Tab.Screen name="Add Tips" component={AddTips} />
         </Tab.Navigator>
       </NavigationContainer>
     )
