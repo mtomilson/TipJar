@@ -2,8 +2,14 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
 import AddTips from './components/AddTips.jsx';
 import Login from './components/Login.jsx'
-import {getAuth, onAuthStateChanged} from 'firebase/auth'
-import {useEffect, useState} from 'react'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { useEffect, useState } from 'react'
+import HomePage from './components/HomePage.jsx'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native'
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+const Tab = createBottomTabNavigator()
 
 export default function App() {
   const auth = getAuth()
@@ -13,7 +19,7 @@ export default function App() {
   useEffect(() => {
 
     onAuthStateChanged(auth, (user) => {
-      if(user) {
+      if (user) {
         setUserExists(true)
         setUser(user)
       }
@@ -23,24 +29,55 @@ export default function App() {
     })
 
   })
- 
+
 
   return (
-    <View style={styles.container}>
-      {userExists ? (
-        <AddTips/>
-        ) : (
-        <Login/>
-      )}      
-      <StatusBar style="auto" />
-    </View>
+
+    userExists ? (
+      <NavigationContainer>
+        <Tab.Navigator
+          screenOptions={({ route }) => ({
+            headerShown: false,
+            tabBarIcon: ({ focused, color, size }) => {
+              let iconName;
+
+              if (route.name === 'Home') {
+                iconName = "home-outline"
+
+
+              } else if (route.name === 'Add Tips') {
+                iconName = "add-circle-outline"
+              }
+
+              // You can return any component that you like here!
+              return <Ionicons name={iconName} size={size} color={color} />;
+            },
+            tabBarActiveTintColor: '#B74866',
+            tabBarInactiveTintColor: 'gray',
+          })}
+        >
+          <Tab.Screen name="Home" component={HomePage} />
+          <Tab.Screen name="Add Tips" component={AddTips} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    )
+      :
+     ( <View style={styles.container}>
+        <Login />
+      </View> )
+
+    
+
+
+
+
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#D1D1D1',
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },
