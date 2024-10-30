@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { View, Text, SafeAreaView, StyleSheet, FlatList } from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet, FlatList, TouchableOpacity, Touchable } from 'react-native'
 import AddTips from './AddTips'
 import { useFonts } from "expo-font"
 import { LinearGradient } from 'expo-linear-gradient'
@@ -27,7 +27,6 @@ export default function HomePage() {
   const [userID, setUserID] = useState("")
   const [userData, setUserData] = useState({})
   const [name, setName] = useState("")
-
   const db = getFirestore()
   const auth = getAuth()
 
@@ -73,14 +72,19 @@ export default function HomePage() {
       id: '58694a0f-3da1-471f-bd96-145571e29d72',
       title: 'Third Item',
     },
-   
+
 
   ];
 
   const Item = ({ title }) => (
-    <View style={styles.item}>
-      <Text style={styles.title}>{title}</Text>
-    </View>
+    <TouchableOpacity>
+
+      <View style={styles.item}>
+        <Text style={styles.itemTitle}>{title}</Text>
+      </View>
+
+    </TouchableOpacity>
+
   );
 
 
@@ -236,8 +240,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: 'black',
     borderWidth: 1,
-   
+  },
 
+  itemTitle: {
+    fontSize: 15,
+    fontFamily: 'Poppins_500Medium',
   },
 
   /**
