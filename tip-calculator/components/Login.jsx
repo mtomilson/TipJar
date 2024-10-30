@@ -6,7 +6,8 @@ import {
     Poppins_400Regular,
     Poppins_600SemiBold,
     Poppins_300Light,
-    Poppins_500Medium
+    Poppins_500Medium,
+    Poppins_800ExtraBold
 } from "@expo-google-fonts/poppins"
 import { useState } from 'react'
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth"
@@ -24,7 +25,8 @@ export default function Login() {
         Poppins_400Regular,
         Poppins_600SemiBold,
         Poppins_300Light,
-        Poppins_500Medium
+        Poppins_500Medium,
+        Poppins_800ExtraBold
     })
     const [wantToSignUp, setWantToSignUp] = useState(false)
     const auth = getAuth()
@@ -82,40 +84,40 @@ export default function Login() {
                 style={styles.background}
             />
             <View style={styles.container}>
-                <Text style={styles.title}>Tip Jar</Text>
-
                 <Image
                     source={require('../assets/images/tips.png')}
                     style={styles.tipsImage}
                 />
+                <Text style={styles.title}>Tip Jar</Text>
+
+
 
                 <View style={styles.information}>
                     {!wantToSignUp ? (
                         <>
                             <View>
-                                <Text style={styles.descriptionText}>First Name</Text>
                                 <TextInput
                                     placeholder='First Name'
                                     style={styles.nameBox}
                                     value={name}
-                                    onChangeText={setName} />
+                                    onChangeText={setName} 
+                                />
                             </View>
 
                         </>
                     ) : (null)}
 
                     <View>
-                        <Text style={styles.descriptionText}>Email</Text>
 
                         <TextInput
                             placeholder='Email'
                             style={styles.emailBox}
                             value={email}
-                            onChangeText={setEmail} />
+                            onChangeText={setEmail} 
+                        />
                     </View>
 
                     <View>
-                        <Text style={styles.descriptionText}>Password</Text>
                         <TextInput
                             placeholder='Password'
                             style={styles.passwordBox}
@@ -155,11 +157,6 @@ export default function Login() {
                     </TouchableOpacity>
                 </View>
 
-
-
-
-
-
             </View>
         </SafeAreaView>
 
@@ -167,12 +164,15 @@ export default function Login() {
 }
 
 const styles = StyleSheet.create({
+    
     tipsImage: {
         height: 90,
-        width: 120,
+        width: 90,
         justifyContent: 'center',
-        alignSelf: 'center'
+        alignSelf: 'center',
+        top: 20,
     },
+
     screen: {
         justifyContent: 'center',
         alignItems: 'center',
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
 
     title: {
         fontSize: 30,
-        fontFamily: "Poppins_600SemiBold",
+        fontFamily: "Poppins_800ExtraBold",
         textAlign: 'center',
         paddingTop: 25,
         color: '#B74866'
@@ -193,6 +193,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#636363',
         padding: 10,
+        borderRadius: 7,
     },
 
     descriptionText: {
@@ -208,6 +209,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#636363',
         padding: 10,
+        borderRadius: 7,
     },
 
     nameBox: {
@@ -216,19 +218,21 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#636363',
         padding: 10,
+        borderRadius: 7,
     },
 
     container: {
         //justifyContent: 'center',
         backgroundColor: 'white',
         height: 550,
-        width: 300,
+        width: 350,
         borderRadius: 15,
         marginTop: 100,
         borderWidth: 1,
         borderColor: '#B74866',
         bottom: 50
     },
+
     signUpButton: {
         backgroundColor: '#B74866',
         margin: 12,
@@ -238,12 +242,6 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         paddingHorizontal: 20,
         paddingVertical: 9,
-    },
-
-    signUpButtonText: {
-        fontFamily: 'Poppins_500Medium', // or whatever font you are using
-        fontSize: 15, // Set your desired font size here
-        color: 'white',
     },
 
     loginButton: {
@@ -267,10 +265,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
     },
+
     information: {
         justifyContent: 'space-evenly',
         height: 250,
     },
+
     background: {
         position: 'absolute',
         left: -100,
@@ -279,11 +279,5 @@ const styles = StyleSheet.create({
         height: 800,
         width: 1000
     }
-
-
-
-
-
-
 
 })
