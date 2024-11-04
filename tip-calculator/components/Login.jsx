@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
     },
 
     information: {
-        justifyContent: 'space-evenly',
+        justifyContent: 'center',
         height: 250,
     },
 

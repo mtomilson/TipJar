@@ -5,7 +5,7 @@ import { getFirestore, doc, setDoc } from "@firebase/firestore";
 import Tesseract from 'tesseract.js';
 import * as ImagePicker from 'expo-image-picker';
 import {getAuth, signOut, onAuthStateChanged} from 'firebase/auth'
-import picture from '../assets/images/tips.png'
+import picture from '../assets/images/tips.jpg'
 import { LinearGradient } from 'expo-linear-gradient'
 
 export default function AddTips() {
@@ -31,26 +31,58 @@ export default function AddTips() {
    */
   const handleOcr = async () => {
 
-    
+    const formData = new FormData()
+    formData.append('image', {
+      uri: image.uri,
+      name:'photo.jpg',
+      type: 'image/jpg'
+    })
+
     try {
-      console.log("HELLO OCR IS WORKING")
+      const response = await fetch('http://192.168.1.155:3000/ocr', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        body: formData
+      })
 
-      const { data } = await Tesseract.recognize(
-        picture,
-        'eng'
-      );
+      const data = await response.json()
 
+      if(data.text) {
+        console.log(data.text)
+      }
+      else {
+        console.log("ERROR")
+      }
       
-
-      setOcrResult(data);
-      
-      let lines = ocrResult.lines
-      console.log(lines)
-      extractData(lines)
-    } catch (err) {
-      console.error(err);
-      setError("Failed to process the image");
     }
+    catch (error) {
+      console.log("Error: ", error)
+    }
+
+
+
+
+    // try {
+    //   console.log("HELLO OCR IS WORKING")
+
+    //   const { data } = await Tesseract.recognize(
+    //     picture,
+    //     'eng'
+    //   );
+
+      
+
+    //   setOcrResult(data);
+      
+    //   let lines = ocrResult.lines
+    //   console.log(lines)
+    //   extractData(lines)
+    // } catch (err) {
+    //   console.error(err);
+    //   setError("Failed to process the image");
+    // }
 
 
   };
@@ -124,7 +156,11 @@ export default function AddTips() {
       aspect: [4,3],
       quality: 1,
     })
+    setImage(result)
+
+
   }
+
   /**
    * extractData() will take in a paramter data, which is passed in from
    * handleOcr(), which is the data pulled from the image
@@ -227,12 +263,6 @@ export default function AddTips() {
       <Button title="Upload Image" onPress={handleUpload} />
       <Button title="Logout" onPress={handleSignOut} />
 
-      {image && (
-        <Image
-          source={{ uri: image }}
-          style={styles.tipImage}
-        />
-      )}
     </SafeAreaView>
   );
 }
