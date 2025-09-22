@@ -20,8 +20,9 @@ const upload = multer({ dest: 'uploads/' })
 app.post('/ocr', upload.single('image'), async (req, res) => {
     try {
         const imagePath = req.file.path
+        console.log(imagePath)
 
-        const { data } = Tesseract.recognize(imagePath, 'eng')
+        const { data } = await Tesseract.recognize(imagePath, 'eng')
 
         res.json({ text: data })
     }
@@ -31,6 +32,9 @@ app.post('/ocr', upload.single('image'), async (req, res) => {
     }
 
 })
+app.get('/ocr', (req, res) => {
+    res.send("OCR endpoint is working!");
+  });
 
 const PORT = 3000
 

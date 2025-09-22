@@ -17,7 +17,7 @@ export default function AddTips() {
   const [cashTips, setCashTips] = useState("");
   const [ocrResult, setOcrResult] = useState("");
   const [error, setError] = useState("");
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState({});
   const [userID, setUserID] = useState("")
   const auth = getAuth()
   const db = getFirestore()
@@ -39,6 +39,12 @@ export default function AddTips() {
     })
 
     try {
+      if(!image) {
+        console.log("NO IMAGE YET")
+      } else {
+        console.log(image.assets[0].uri)
+
+      }
       const response = await fetch('http://192.168.1.155:3000/ocr', {
         method: 'POST',
         headers: {
@@ -156,8 +162,7 @@ export default function AddTips() {
       aspect: [4,3],
       quality: 1,
     })
-    setImage(result)
-
+    await setImage(result)
 
   }
 
