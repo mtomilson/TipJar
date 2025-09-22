@@ -43,6 +43,7 @@ export default function Login() {
         totalTips: 0,
         name: name,
     }
+    dasds
 
 
     const loginAccount = async () => {
@@ -267,7 +268,7 @@ const styles = StyleSheet.create({
     },
 
     information: {
-        justifyContent: 'space-evenly',
+        justifyContent: 'center',
         height: 250,
     },
 
